@@ -2,7 +2,7 @@
 
 # Overview
 This is a data science project conducted at UCSD analyzing the relationship between the rating of a recipe and the proportion of salt, sugar, and fat, — the three components that 
-make food hyper-palatable and especially tantalizing to our taste buds.
+make food hyper-palatable and especially tantalizing to our taste buds.  
 Author: Peter Little
 
 # Introduction
