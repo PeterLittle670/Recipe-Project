@@ -2,7 +2,8 @@
 
 # Overview
 This is a data science project conducted at UCSD analyzing the relationship between the rating of a recipe and the proportion of salt, sugar, and fat, — the three components that 
-make food hyper-palatable and especially tantalizing to our taste buds.  
+make food hyper-palatable and especially tantalizing to our taste buds.
+
 Author: Peter Little
 
 # Introduction
@@ -36,7 +37,9 @@ Our second dataset, `ratings`, contains 731927 rows and each row contains a revi
 | `'rating'`    | Rating given        |
 | `'review'`    | Review text         |
 
-We use these two datasets to create one new dataset, `merged`, merging on recipe to ensure that we only include a row as long as we have a corresponding recipe for it. This also means that we can have rows with the same recipe but different review. After merging we also fill in all ratings of 0 with `np.nan` because on our scale the only ratings you can give are from 1-5. Additionally we add a column containing the average rating for each recipe.
+We use these two datasets to create one new dataset, `merged`, merging on recipe to ensure that we only include a row as long as we have a corresponding recipe for it. This also means that we can have rows with the same recipe but different review. Additionally we add a column containing the average rating for each recipe. To aid in analyzing nutrition facts, we also add a separate column for each value in nutrition, resulting in a column for `calories (#)`, `total fat (PDV)`, `sugar (PDV)`, etc. PDV, or percent daily value shows how much a nutrient in a serving of food contributes to a total daily diet. Afterwards we can add a `hyper_palatable` that contains whether a food is hyper-palatable or not, we calculate this by checking if the salt, fat, and sugar in a food is above the median for each of those columns. 
+
+<!-- By gathering this data, we now have our relevant columns, salt, fat, sugar, ratings, average ratings. -->
 
 | Column        | Description         |
 | :------------ | :------------------ |
@@ -44,7 +47,55 @@ We use these two datasets to create one new dataset, `merged`, merging on recipe
 
 # Data Cleaning and Exploratory Data Analysis
 
--Merging and filling in a ratings of zero with np.nan
+To aid in analysis, we conducted the following data cleaning steps.
+
+1. Left merge the recipes and interactions datasets on id and recipe_id.
+
+   - This step helps match the unique recipes with their rating and review.
+
+1. Check data types of all the columns.
+
+   - This step helps us evaluate what data cleaning steps are appropriate for the dataset and if we need to conduct data type conversion.
+   - | Column             | Description |
+     | :----------------- | :---------- |
+     | `'name'`           | object      |
+     | `'id'`             | int64       |
+     | `'minutes'`        | int64       |
+     | `'contributor_id'` | int64       |
+     | `'submitted'`      | object      |
+     | `'tags'`           | object      |
+     | `'nutrition'`      | object      |
+     | `'n_steps'`        | int64       |
+     | `'steps'`          | object      |
+     | `'description'`    | object      |
+     | `'ingredients'`    | object      |
+     | `'n_ingredients'`  | int64       |
+     | `'user_id'`        | float64     |
+     | `'recipe_id'`      | float64     |
+     | `'date'`           | object      |
+     | `'rating'`         | float64     |
+     | `'review'`         | object      |
+
+1. Fill all ratings of 0 with np.nan.
+
+   - Rating is on a scale from 1 to 5, 1 meaning the lowest rating while 5 means the highest rating. With that being said, a rating of 0 indicates missing values in rating. Therefore we filled all values of 0 with np.nan.
+
+1. Add column `'average_rating'` containing average rating per recipe.
+
+   - Since a recipe can have numerous ratings from different users, we take an average of all the ratings to get a more comprehensive understanding of the rating of a given recipe.
+
+1. Split values in the nutrition column to individual columns of floats.
+
+   - Even though the values in the nutrition column look like lists, they're actually string objects. Given the description of the columns of the recipe dataset, we know what each individual value inside the brackets mean. Thus we can properly split up each value inside of the string and convert it into it's own column, giving us the columns `calories`, `total_fat`, `sugar`, `sodium`, `protein`, `saturated_fat`, and `carbohydrates`.
+   
+1. Add `'hyper_palatable'` to the dataframe
+
+   - `'hyper_palatable'` is a boolean column checking if the salt, fat, and sugar in a food is above the median for each column. This allows us to compare ratings between hyper-palatable foods and non-hyper-palatable foods.
+   
+
+-Merging and filling in a ratings of zero with np.nan:
+After merging we also fill in all ratings of 0 with `np.nan` because on our scale the only ratings you can give are from 1-5.
+
 -Adding average rating
 -Convert to String and Adding Nutrition Columns
 -Add Hyper-Palatable Column
