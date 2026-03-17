@@ -91,6 +91,14 @@ To aid in analysis, we conducted the following data cleaning steps.
 1. Add `'hyper_palatable'` to the dataframe
 
    - `'hyper_palatable'` is a boolean column checking if the salt, fat, and sugar in a food is above the median for each column. This allows us to compare ratings between hyper-palatable foods and non-hyper-palatable foods.
+
+<iframe
+  src="assets/calories-dist.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
    
 
 <!-- -Merging and filling in a ratings of zero with np.nan:
