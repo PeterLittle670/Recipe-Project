@@ -93,7 +93,13 @@ To aid in analysis, we conducted the following data cleaning steps.
    - `'hyper_palatable'` is a boolean column checking if the salt, fat, and sugar in a food is above the median for each column. This allows us to compare ratings between hyper-palatable foods and non-hyper-palatable foods.
 
 
-'| name                                 |     id |   rating |   average_rating |   calories |   total_fat |   sugar |   sodium | hyper_palatable   |\n|:-------------------------------------|-------:|---------:|-----------------:|-----------:|------------:|--------:|---------:|:------------------|\n| 1 brownies in the world    best ever | 333281 |        4 |                4 |      138.4 |          10 |      50 |        3 | False             |\n| 1 in canada chocolate chip cookies   | 453467 |        5 |                5 |      595.1 |          46 |     211 |       22 | True              |\n| 412 broccoli casserole               | 306168 |        5 |                5 |      194.8 |          20 |       6 |       32 | False             |\n| 412 broccoli casserole               | 306168 |        5 |                5 |      194.8 |          20 |       6 |       32 | False             |\n| 412 broccoli casserole               | 306168 |        5 |                5 |      194.8 |          20 |       6 |       32 | False             |'
+| name                                 |     id |   rating |   average_rating |   calories |   total_fat |   sugar |   sodium | hyper_palatable |
+|:-------------------------------------|-------:|---------:|-----------------:|-----------:|------------:|--------:|---------:|:----------------|
+| 1 brownies in the world    best ever | 333281 |        4 |                4 |      138.4 |          10 |      50 |        3 | False           |
+| 1 in canada chocolate chip cookies   | 453467 |        5 |                5 |      595.1 |          46 |     211 |       22 | True            |
+| 412 broccoli casserole               | 306168 |        5 |                5 |      194.8 |          20 |       6 |       32 | False           |
+| 412 broccoli casserole               | 306168 |        5 |                5 |      194.8 |          20 |       6 |       32 | False           |
+| 412 broccoli casserole               | 306168 |        5 |                5 |      194.8 |          20 |       6 |       32 | False           |
 
 <iframe
   src="assets/calories-dist.html"
