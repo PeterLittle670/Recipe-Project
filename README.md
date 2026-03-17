@@ -93,12 +93,12 @@ To aid in analysis, we conducted the following data cleaning steps.
    - `'hyper_palatable'` is a boolean column checking if the salt, fat, and sugar in a food is above the median for each column. This allows us to compare ratings between hyper-palatable foods and non-hyper-palatable foods.
    
 
--Merging and filling in a ratings of zero with np.nan:
-After merging we also fill in all ratings of 0 with `np.nan` because on our scale the only ratings you can give are from 1-5.
+<!-- -Merging and filling in a ratings of zero with np.nan:
+After merging we also fill in all ratings of 0 with `np.nan` because on our scale the only ratings you can give are from 1-5. -->
 
--Adding average rating
+<!-- -Adding average rating
 -Convert to String and Adding Nutrition Columns
--Add Hyper-Palatable Column
+-Add Hyper-Palatable Column -->
 
 # Assessment of Missingness
 
