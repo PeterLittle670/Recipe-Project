@@ -6,9 +6,9 @@ make food hyper-palatable and especially tantalizing to our taste buds.
 Author: Peter Little
 
 # Introduction
-Hyper-Palatable foods have been a particular topic of controversy and debate regarding the diabetes pandemic in the US and the rise of hyper-processed, engineered foods to give us extreme flavors and hooked on our favorite snacks. This project aims to explore the power of a particular holy-trinity used to make foods super tasty, a certain mix of salt, sugar, and fat, and whether we can see the influence of this in other foods in the ratings of recipes.
+Hyper-Palatable foods have been a particular topic of controversy and debate regarding the diabetes epidemic in the US and the rise of hyper-processed, engineered foods to give us extreme flavors to keep us hooked on our favorite snacks. This project aims to explore the power of a particular holy-trinity used to make foods super tasty, a certain mix of salt, sugar, and fat, and whether we can see the influence of this in other foods in the ratings of recipes.
 
-Our first dataset `recipe`, has 83782 rows totalling to 83782 unique recipes, with 10 columns recording the following information:
+Our first dataset `recipes`, has 83782 rows totalling to 83782 unique recipes, with 10 columns recording the following information:
 
 
 | Column             | Description                                                                                                                                                                                       |
@@ -25,6 +25,22 @@ Our first dataset `recipe`, has 83782 rows totalling to 83782 unique recipes, wi
 | `'description'`    | User-provided description                                                                                                                                                                         |
 | `'ingredients'`    | Text for recipe ingredients                                                                                                                                                                       |
 | `'n_ingredients'`  | Number of ingredients in recipe                                                                                                                                                                   |
+
+Our second dataset, `ratings`, contains 731927 rows and each row contains a review from the user on a specific recipe. The columns it includes are:
+
+| Column        | Description         |
+| :------------ | :------------------ |
+| `'user_id'`   | User ID             |
+| `'recipe_id'` | Recipe ID           |
+| `'date'`      | Date of interaction |
+| `'rating'`    | Rating given        |
+| `'review'`    | Review text         |
+
+We use these two datasets to create one merged dataset, merging on recipe to ensure that we only include a row as long as we have a corresponding recipe for it. This also means that we can have rows with the same recipe but different review. Additionally while merging we add a column containing the average rating for each recipe.
+
+| Column        | Description         |
+| :------------ | :------------------ |
+| `'average_rating'`   | Average Rating of recipe             |
 
 
 # Data Cleaning and Exploratory Data Analysis
