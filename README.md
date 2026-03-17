@@ -1,7 +1,8 @@
 # Fat, Sugar, Salt & Stars: What Really Drives Recipe Ratings?
 
 <!-- This is a project for the class DSC 80 about analyzing a large dataset of recipes and building a predictive model to predict ratings. -->
-[Visit My GitHub](https://github.com/your-username)
+[Visit My GitHub](https://github.com/your-username){: .btn .btn-primary}
+<!-- [Visit My GitHub](https://github.com/your-username) -->
 
 # Introduction
 
@@ -17,4 +18,4 @@
 
 # Final Model
 
-# Fairness Analysis
+# Fairness Analysis
