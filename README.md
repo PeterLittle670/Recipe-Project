@@ -36,14 +36,18 @@ Our second dataset, `ratings`, contains 731927 rows and each row contains a revi
 | `'rating'`    | Rating given        |
 | `'review'`    | Review text         |
 
-We use these two datasets to create one merged dataset, merging on recipe to ensure that we only include a row as long as we have a corresponding recipe for it. This also means that we can have rows with the same recipe but different review. Additionally while merging we add a column containing the average rating for each recipe.
+We use these two datasets to create one new dataset, `merged`, merging on recipe to ensure that we only include a row as long as we have a corresponding recipe for it. This also means that we can have rows with the same recipe but different review. After merging we also fill in all ratings of 0 with `np.nan` because on our scale the only ratings you can give are from 1-5. Additionally we add a column containing the average rating for each recipe.
 
 | Column        | Description         |
 | :------------ | :------------------ |
 | `'average_rating'`   | Average Rating of recipe             |
 
-
 # Data Cleaning and Exploratory Data Analysis
+
+-Merging and filling in a ratings of zero with np.nan
+-Adding average rating
+-Convert to String and Adding Nutrition Columns
+-Add Hyper-Palatable Column
 
 # Assessment of Missingness
 
