@@ -424,6 +424,7 @@ two-sided test since we have no prior reason to expect the model to perform
 worse for one specific group.
 
 ### Results
+
 | Group | RMSE |
 |-------|------|
 | Hyper-palatable | 0.3552 |
