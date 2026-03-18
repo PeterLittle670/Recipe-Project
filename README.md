@@ -431,12 +431,12 @@ worse for one specific group.
 | Observed difference | 0.0184 |
 | P-value | 0.1530 |
 
-<!-- <iframe
-  src="assets/fairness-permutation.html"
+<iframe
+  src="assets/permutation-test.html"
   width="800"
   height="600"
   frameborder="0"
-></iframe> -->
+></iframe>
 
 ### Conclusion
 At a significance level of 0.05, we **fail to reject the null hypothesis** 
