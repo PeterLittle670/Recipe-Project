@@ -201,25 +201,25 @@ significantly dependent on the number of ingredients in a recipe.
 
 # Hypothesis Testing
 
-## Question
+### Question
 Do hyper-palatable recipes (those above the median in fat, sugar, and sodium 
 simultaneously) receive higher average ratings than non-hyper-palatable recipes?
 
-## Hypotheses
+### Hypotheses
 **Null Hypothesis:** Hyper-palatable recipes have the same average rating as 
 non-hyper-palatable recipes. Any observed difference is due to random chance.
 
 **Alternative Hypothesis:** Hyper-palatable recipes have a higher average rating 
 than non-hyper-palatable recipes.
 
-## Test Statistic & Significance Level
+### Test Statistic & Significance Level
 We used the **difference in mean ratings** (hyper-palatable minus non-hyper-palatable) 
 as our test statistic. This is a natural choice for comparing two groups on a 
 continuous variable, and is easily interpretable — a positive value means 
 hyper-palatable recipes rate higher on average. We set our significance level 
 at **0.05**.
 
-## Results
+### Results
 Our permutation test with 1,000 permutations yielded an observed difference of 
 **-0.0034** and a p-value of **0.903**.
 
@@ -282,6 +282,171 @@ not be known at the time of prediction.
 
 # Baseline Model
 
+### Model Description
+Our baseline model is a **Linear Regression** model that predicts a recipe's 
+average rating using ten quantitative features passed through a single sklearn 
+Pipeline with a StandardScaler.
+
+### Features
+All features used in the baseline model are **quantitative**:
+
+| Feature | Type | Description |
+|---------|------|-------------|
+| calories | Quantitative | Total calories in the recipe |
+| total_fat | Quantitative | Total fat as % daily value |
+| sugar | Quantitative | Sugar as % daily value |
+| sodium | Quantitative | Sodium as % daily value |
+| protein | Quantitative | Protein as % daily value |
+| saturated_fat | Quantitative | Saturated fat as % daily value |
+| carbohydrates | Quantitative | Carbohydrates as % daily value |
+| n_steps | Quantitative | Number of steps in the recipe |
+| n_ingredients | Quantitative | Number of ingredients |
+| minutes | Quantitative | Cooking time in minutes |
+
+Since all features are quantitative, no categorical encoding was required. 
+All features were standardized using StandardScaler, which centers each feature 
+to have mean 0 and standard deviation 1. This is important for Linear Regression 
+as it ensures no single feature dominates due to differences in scale 
+(e.g. calories ranging into the thousands vs. n_steps ranging from 1-100).
+
+### Performance
+| | RMSE |
+|--|------|
+| Train | 0.4995 |
+| Test | 0.4898 |
+
+We do not consider this a good model. An RMSE of 0.4898 on a 1-5 star scale 
+means our predictions are off by nearly half a star on average, which is 
+significant given that the vast majority of recipes are rated between 4 and 5 
+stars. The model's limited performance is expected — Linear Regression assumes 
+a linear relationship between features and ratings, which is unlikely to hold 
+in this dataset. Additionally, the heavily skewed distribution of ratings toward 
+4s and 5s makes it inherently difficult for any model to predict ratings with 
+high precision. The baseline serves as a performance floor that we aim to 
+improve upon in our final model.
+
 # Final Model
 
+## Final Model
+
+### New Features Engineered
+In addition to the ten baseline features, we engineered three new features:
+
+**1. `calories_per_step` (Quantitative)**
+This feature divides total calories by the number of steps, capturing the 
+caloric density per unit of recipe complexity. Two recipes with identical 
+calorie counts can be fundamentally different — a 1000-calorie recipe with 
+20 steps is a complex, labor-intensive dish, while a 1000-calorie recipe 
+with 3 steps is likely a simple, indulgent dish like a milkshake or brownie. 
+We hypothesize that simpler, more indulgent recipes (high calories_per_step) 
+may have systematically different ratings than complex dishes, making this 
+a more informative signal than raw calories or n_steps alone.
+
+**2. `hyper_palatable` (Quantitative — Binary)**
+This binary feature flags recipes that exceed the median in total fat, sugar, 
+and sodium simultaneously — our definition of hyper-palatable food from 
+Steps 1-4. Although our hypothesis test found no statistically significant 
+difference in ratings between the two groups, this feature may still provide 
+useful signal to a non-linear model like Random Forest, which can detect 
+subtle interaction effects between hyper-palatability and other nutritional 
+features that a permutation test on means cannot capture.
+
+**3. `log(minutes)` (Quantitative)**
+Cooking time in raw minutes is heavily right-skewed, with some recipes taking 
+thousands of minutes. A log transformation compresses this tail and better 
+reflects the diminishing perceptual difference between, say, a 500-minute and 
+1000-minute recipe compared to a 5-minute and 10-minute recipe. This makes the 
+feature more informative to the model by removing the outsized influence of 
+extreme outliers.
+
+### Modeling Algorithm
+We upgraded from Linear Regression to a **Random Forest Regressor**, which 
+is better suited to this prediction task for two reasons:
+- It captures non-linear relationships between features and ratings that 
+  Linear Regression cannot model.
+- It handles interactions between features (e.g. the joint effect of high 
+  fat and high sugar on ratings) without requiring explicit feature crosses.
+
+### Hyperparameter Tuning
+We tuned two hyperparameters using **GridSearchCV with 5-fold cross validation**:
+
+- **`max_depth`**: Controls how deep each tree can grow. Deeper trees capture 
+  more complex patterns but risk overfitting. We searched over 
+  `[5, 10, 20, None]`.
+- **`n_estimators`**: The number of trees in the forest. More trees produce 
+  more stable predictions by averaging over more estimates. We searched over 
+  `[50, 100, 200]`.
+
+The best hyperparameters found were `max_depth=None` and `n_estimators=200`, 
+with a cross-validated RMSE of 0.3652.
+
+### Performance
+| | Baseline RMSE | Final Model RMSE |
+|--|--------------|-----------------|
+| Train | 0.4995 | 0.1289 |
+| Test | 0.4898 | 0.3399 |
+
+Our final model achieves a test RMSE of 0.3399, representing a ~30% reduction 
+in error compared to the baseline test RMSE of 0.4898. This improvement is 
+attributable to both the switch to Random Forest — which better captures 
+non-linear relationships — and the addition of engineered features that provide 
+more informative signals about recipe type and complexity.
+
+We note that there is a meaningful gap between train RMSE (0.1289) and test 
+RMSE (0.3399), indicating some degree of overfitting with `max_depth=None`. 
+However, this is expected given the noisy nature of rating data — with ratings 
+so heavily concentrated between 4 and 5 stars, the true signal available to 
+any model is inherently limited, and the test RMSE improvement over baseline 
+confirms that our model generalizes meaningfully better to unseen recipes.
+
 # Fairness Analysis
+
+### Groups
+- **Group X:** Hyper-palatable recipes (above median in fat, sugar, and sodium)
+- **Group Y:** Non-hyper-palatable recipes (at or below median in at least one 
+  of fat, sugar, or sodium)
+
+### Evaluation Metric
+We use **RMSE** as our evaluation metric, consistent with our regression task.
+
+### Hypotheses
+**Null Hypothesis:** Our model is fair. Its RMSE for hyper-palatable recipes 
+and non-hyper-palatable recipes are roughly the same, and any differences are 
+due to random chance.
+
+**Alternative Hypothesis:** Our model is unfair. Its RMSE for hyper-palatable 
+recipes is different from its RMSE for non-hyper-palatable recipes.
+
+### Test Statistic & Significance Level
+We use the **difference in RMSE** (hyper-palatable minus non-hyper-palatable) 
+as our test statistic, with a significance level of **0.05**. We use a 
+two-sided test since we have no prior reason to expect the model to perform 
+worse for one specific group.
+
+### Results
+| Group | RMSE |
+|-------|------|
+| Hyper-palatable | 0.3552 |
+| Non-hyper-palatable | 0.3368 |
+| Observed difference | 0.0184 |
+| P-value | 0.1530 |
+
+<!-- <iframe
+  src="assets/fairness-permutation.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe> -->
+
+### Conclusion
+At a significance level of 0.05, we **fail to reject the null hypothesis** 
+(p-value = 0.153). While the model does predict slightly less accurately for 
+hyper-palatable recipes (RMSE of 0.3552 vs. 0.3368), this difference of 0.0184 
+is well within the range we would expect by random chance alone. We cannot 
+conclude that our model is unfair — it appears to perform comparably on both 
+hyper-palatable and non-hyper-palatable recipes.
+
+This result is consistent with our earlier findings throughout the project: 
+hyper-palatability does not appear to be a strong distinguishing signal in 
+this dataset, likely due to the ceiling effect in ratings where nearly all 
+recipes score between 4 and 5 stars regardless of nutritional content.
