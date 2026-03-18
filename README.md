@@ -92,6 +92,7 @@ To aid in analysis, we conducted the following data cleaning steps.
 
    - `'hyper_palatable'` is a boolean column checking if the salt, fat, and sugar in a food is above the median for each column. This allows us to compare ratings between hyper-palatable foods and non-hyper-palatable foods.
 
+### Result
 
 | name                                 |     id |   rating |   average_rating |   calories |   total_fat |   sugar |   sodium | hyper_palatable |
 |:-------------------------------------|-------:|---------:|-----------------:|-----------:|------------:|--------:|---------:|:----------------|
@@ -101,14 +102,47 @@ To aid in analysis, we conducted the following data cleaning steps.
 | 412 broccoli casserole               | 306168 |        5 |                5 |      194.8 |          20 |       6 |       32 | False           |
 | 412 broccoli casserole               | 306168 |        5 |                5 |      194.8 |          20 |       6 |       32 | False           |
 
+## Univariate Analysis
+
+For this analysis we analyzed the distribution of the ratings to better understand the general pattern of how people reviewed recipes. From this bar plot, we can tell that ratings are highly skewed towards 4s and 5s, suggesting possible difficulty down the line trying to differentiate which variables are most predictive of rating.
+
 <iframe
-  src="assets/calories-dist.html"
+  src="assets/ratings-dist.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
 
-   
+## Bivariate Analysis
+
+For this analysis we analyzed the distribution of ratings hyper-palatable and non-hyper-palatable foods to look for any patternes and differences between the two distributions. However, from the box plot we can tell that their distributions are nearly identical with medians arounds 4.75 and similar interquartile ranges. This plot suggests that whether a food is hyper-palatable or not has little discernible effect on it's rating, likely due to the ceiling effect observed in the univariate analysis above.
+
+<iframe
+  src="assets/ratings-vs-hyper-palatable-boxplot.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+## Interesting Aggregates
+
+The pivot table below shows the average recipe rating broken down by calorie range 
+and hyper-palatable status. Across all calorie ranges, ratings remain consistently 
+high around 4.6 for both hyper-palatable and non-hyper-palatable recipes, 
+with no meaningful difference between the two groups. This further reinforces the 
+ceiling effect observed in our univariate analysis, nutrition facts appear to 
+have little influence on a recipe's rating regardless of calorie count.
+
+
+| Calorie Range   |   Non-Hyper-Palatable |   Hyper-Palatable |
+|:----------------|----------------------:|------------------:|
+| 0-200           |                4.6844 |            4.5761 |
+| 200-400         |                4.682  |            4.6927 |
+| 400-600         |                4.6646 |            4.6733 |
+| 600-800         |                4.6631 |            4.6792 |
+| 800-1000        |                4.6139 |            4.6927 |
+| 1000+           |                4.6593 |            4.6479 |
+
 
 <!-- -Merging and filling in a ratings of zero with np.nan:
 After merging we also fill in all ratings of 0 with `np.nan` because on our scale the only ratings you can give are from 1-5. -->
