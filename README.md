@@ -310,6 +310,7 @@ as it ensures no single feature dominates due to differences in scale
 (e.g. calories ranging into the thousands vs. n_steps ranging from 1-100).
 
 ### Performance
+
 | | RMSE |
 |--|------|
 | Train | 0.4995 |
@@ -381,6 +382,7 @@ The best hyperparameters found were `max_depth=None` and `n_estimators=200`,
 with a cross-validated RMSE of 0.3652.
 
 ### Performance
+
 | | Baseline RMSE | Final Model RMSE |
 |--|--------------|-----------------|
 | Train | 0.4995 | 0.1289 |
