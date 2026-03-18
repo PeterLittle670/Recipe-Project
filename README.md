@@ -153,6 +153,52 @@ After merging we also fill in all ratings of 0 with `np.nan` because on our scal
 
 # Assessment of Missingness
 
+## MNAR Analysis
+
+We believe the `description` column is **MNAR** because a contributor who submitted a low-effort or simple recipe may have skipped writing a description because they felt the recipe didn't need one, therefore making the missingness of the recipe related to the quality or complexity of the recipe itself, which is unobserved. To make this MAR, we would want data such as the contributor's activity level or number of recipes submitted, which might explain the missing descriptions independent of recipe content.
+
+## Missingness Dependency
+
+We analyzed the missingness of the `description` column (114 missing values) by 
+performing permutation tests against four columns: `n_steps`, `minutes`, 
+`n_ingredients`, and `calories`. We used the KS statistic as our test statistic 
+since it effectively compares two continuous distributions without assuming normality.
+
+Our results were as follows:
+
+| Column | KS Statistic | P-Value | Dependent? |
+|--------|-------------|---------|------------|
+| n_steps | 0.1335 | 0.0130 | Yes |
+| minutes | 0.0940 | 0.1770 | No |
+| n_ingredients | 0.1496 | 0.0040 | Yes |
+| calories | 0.1583 | 0.0030 | Yes |
+
+At a significance level of 0.05, the missingness of `description` depends on 
+`n_steps`, `n_ingredients`, and `calories`, but does not depend on `minutes`. 
+
+This makes intuitive sense from the data generating process: contributors who 
+submitted more complex recipes with more steps, more ingredients, and higher 
+calorie counts were more likely to invest the effort to write a description. 
+In contrast, cooking time (`minutes`) has no meaningful relationship with whether 
+a description was written — a recipe can take a long time without being complex 
+(e.g. a slow cooker recipe with 3 ingredients that simply sits for 8 hours).
+
+The missingness of `description` is therefore **MAR** (Missing At Random), dependent 
+on observable columns in our dataset rather than on the description's content itself.
+
+<iframe
+  src="assets/desc-vs-num-ingredients-ks.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+The plot above shows the empirical distribution of the KS statistic from our 
+permutation test for `n_ingredients`. The observed KS statistic of 0.1496 (red 
+dashed line) falls far in the tail of the permutation distribution, yielding a 
+p-value of 0.004 and confirming that the missingness of `description` is 
+significantly dependent on the number of ingredients in a recipe.
+
 # Hypothesis Testing
 
 # Framing a Prediction Problem
