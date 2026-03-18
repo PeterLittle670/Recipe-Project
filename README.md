@@ -328,8 +328,6 @@ improve upon in our final model.
 
 # Final Model
 
-## Final Model
-
 ### New Features Engineered
 In addition to the ten baseline features, we engineered three new features:
 
