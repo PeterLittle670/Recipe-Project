@@ -246,6 +246,40 @@ dataset.
 
 # Framing a Prediction Problem
 
+### Prediction Problem
+Can we predict the average rating of a recipe based on its nutritional content 
+and other recipe properties available at the time of submission?
+
+### Type
+This is a **regression** problem, as we are predicting `average_rating`, a 
+continuous variable ranging from 1 to 5.
+
+### Response Variable
+Our response variable is `average_rating`. We chose this variable because it is 
+the most direct measure of how well a recipe is received by the Food.com community, 
+and it naturally extends our hypothesis testing question — having found that 
+hyper-palatability alone does not predict ratings, we now ask whether a broader 
+set of nutritional and recipe features can do so.
+
+### Evaluation Metric
+We use **RMSE (Root Mean Squared Error)** to evaluate our model. RMSE is 
+appropriate here because:
+- It penalizes larger errors more heavily than MAE, which is desirable since 
+  a prediction of 1 star when the true rating is 5 stars is much worse than 
+  being off by 0.5 stars.
+- It is interpretable in the same units as our response variable (stars), 
+  making it easy to communicate model performance.
+- R² was considered but is less intuitive for communicating prediction error 
+  to a general audience.
+
+### Justification of Features at Time of Prediction
+All features we use are available at the time a recipe is submitted to Food.com — 
+nutritional content, number of steps, number of ingredients, cooking time, and 
+ingredients are all properties of the recipe itself, not derived from user 
+interactions after the fact. We are careful to exclude any features derived 
+from user reviews or interactions (such as number of reviews), as these would 
+not be known at the time of prediction.
+
 # Baseline Model
 
 # Final Model
