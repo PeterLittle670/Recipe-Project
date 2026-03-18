@@ -107,7 +107,7 @@ To aid in analysis, we conducted the following data cleaning steps.
 For this analysis we analyzed the distribution of the ratings to better understand the general pattern of how people reviewed recipes. From this bar plot, we can tell that ratings are highly skewed towards 4s and 5s, suggesting possible difficulty down the line trying to differentiate which variables are most predictive of rating.
 
 <iframe
-  src="assets/ratings-dist.html"
+  src="assets/ratings-barplot.html"
   width="800"
   height="600"
   frameborder="0"
