@@ -7,7 +7,7 @@ make food hyper-palatable and especially tantalizing to our taste buds.
 Author: Peter Little
 
 # Introduction
-Hyper-Palatable foods have been a particular topic of controversy and debate regarding the diabetes epidemic in the US and the rise of hyper-processed, engineered foods to give us extreme flavors to keep us hooked on our favorite snacks. This project aims to explore the power of a particular holy-trinity used to make foods super tasty, a certain mix of salt, sugar, and fat, and whether we can see the influence of this in other foods in the ratings of recipes.
+The rise of hyper-processed foods has sparked growing debate about the role of engineered flavors in driving overconsumption and contributing to the diabetes epidemic in the US. At the center of this debate is a well-documented "holy trinity" of ingredients — salt, sugar, and fat — which food scientists argue are deliberately combined to maximize palatability and keep consumers coming back for more. This project investigates whether this same combination leaves a detectable signature in how home cooks rate recipes on Food.com.
 
 Our first dataset `recipes`, has 83782 rows totalling to 83782 unique recipes, with 10 columns recording the following information:
 
@@ -37,7 +37,7 @@ Our second dataset, `ratings`, contains 731927 rows and each row contains a revi
 | `'rating'`    | Rating given        |
 | `'review'`    | Review text         |
 
-We use these two datasets to create one new dataset, `merged`, merging on recipe to ensure that we only include a row as long as we have a corresponding recipe for it. This also means that we can have rows with the same recipe but different review. Additionally we add a column containing the average rating for each recipe. To aid in analyzing nutrition facts, we also add a separate column for each value in nutrition, resulting in a column for `calories (#)`, `total fat (PDV)`, `sugar (PDV)`, etc. PDV, or percent daily value shows how much a nutrient in a serving of food contributes to a total daily diet. Afterwards we can add a `hyper_palatable` that contains whether a food is hyper-palatable or not, we calculate this by checking if the salt, fat, and sugar in a food is above the median for each of those columns. 
+We use these two datasets to create one new dataset, `merged`, merging on recipe to ensure that we only include a row as long as we have a corresponding recipe for it. This also means that we can have rows with the same recipe but different review. Additionally we add a column containing the average rating for each recipe. To aid in analyzing nutrition facts, we also add a separate column for each value in nutrition, resulting in a column for `calories (#)`, `total fat (PDV)`, `sugar (PDV)`, etc. PDV, or percent daily value shows how much a nutrient in a serving of food contributes to a total daily diet. Afterwards we can add a `hyper_palatable` column that contains whether a food is hyper-palatable or not, we calculate this by checking if the salt, fat, and sugar in a food is above the median for each of those columns. 
 
 <!-- By gathering this data, we now have our relevant columns, salt, fat, sugar, ratings, average ratings. -->
 
