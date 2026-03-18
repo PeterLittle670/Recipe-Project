@@ -201,6 +201,49 @@ significantly dependent on the number of ingredients in a recipe.
 
 # Hypothesis Testing
 
+## Question
+Do hyper-palatable recipes (those above the median in fat, sugar, and sodium 
+simultaneously) receive higher average ratings than non-hyper-palatable recipes?
+
+## Hypotheses
+**Null Hypothesis:** Hyper-palatable recipes have the same average rating as 
+non-hyper-palatable recipes. Any observed difference is due to random chance.
+
+**Alternative Hypothesis:** Hyper-palatable recipes have a higher average rating 
+than non-hyper-palatable recipes.
+
+## Test Statistic & Significance Level
+We used the **difference in mean ratings** (hyper-palatable minus non-hyper-palatable) 
+as our test statistic. This is a natural choice for comparing two groups on a 
+continuous variable, and is easily interpretable — a positive value means 
+hyper-palatable recipes rate higher on average. We set our significance level 
+at **0.05**.
+
+## Results
+Our permutation test with 1,000 permutations yielded an observed difference of 
+**-0.0034** and a p-value of **0.903**.
+
+<iframe
+  src="assets/hypothesis-test.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+### Conclusion
+At a significance level of 0.05, we **fail to reject the null hypothesis**. The 
+observed difference in mean ratings of -0.0034 is well within the range of 
+differences we would expect by random chance alone, as evidenced by the high 
+p-value of 0.903. We cannot conclude that hyper-palatable recipes receive higher 
+ratings than other recipes.
+
+This result is likely influenced by the ceiling effect observed in our univariate 
+analysis — ratings are so heavily skewed toward 4s and 5s across all recipes that 
+there is little room for hyper-palatability to produce a detectable difference. 
+This does not prove that hyper-palatability has no effect on ratings, but rather 
+that any such effect is not detectable given the distribution of ratings in this 
+dataset.
+
 # Framing a Prediction Problem
 
 # Baseline Model
